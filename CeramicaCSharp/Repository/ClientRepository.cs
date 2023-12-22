@@ -43,5 +43,15 @@ namespace CeramicaCSharp.Repository
         {
             return _context.Clients.Any(p => p.Id == clientId);
         }
+
+        public bool ClientExistsCpf(string clientCpf)
+        {
+            return _context.Clients.Any(p => p.Cpf == clientCpf);
+        }
+
+        public bool ClientExistsPhone(string clientPhone)
+        {
+            return _context.Clients.Any(p => p.Phone == clientPhone);
+        }
     }
 }

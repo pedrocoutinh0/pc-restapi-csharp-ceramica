@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CeramicaCSharp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231218134614_init")]
-    partial class init
+    [Migration("20231222174332_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

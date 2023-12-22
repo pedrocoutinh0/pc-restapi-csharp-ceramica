@@ -38,12 +38,38 @@ namespace CeramicaCSharp.Controllers
         [ProducesResponseType(400)]
         public IActionResult CreateClient([FromBody] ClientDto clientCreate) 
         {
+            string[] classifications = { "VIP", "NORMAL" };
+
             if (clientCreate == null)
                 return BadRequest(ModelState);
+
+            if (!Array.Exists(classifications, element => element == clientCreate.Classification))
+            {
+                ModelState.AddModelError("", "This Classification is invalid");
+                return StatusCode(400, ModelState);
+            }
 
             if (!CpfValidator.ValidateCPF(clientCreate.Cpf)) 
             {
                 ModelState.AddModelError("", "This CPF is invalid");
+                return StatusCode(400, ModelState);
+            }
+
+            if (!PhoneValidator.VerifyPhoneNumber(clientCreate.Phone))
+            {
+                ModelState.AddModelError("", "This Phone is invalid");
+                return StatusCode(400, ModelState);
+            }
+
+            if (_clientRepository.ClientExistsCpf(clientCreate.Cpf))
+            {
+                ModelState.AddModelError("", "This CPF is already being used");
+                return StatusCode(400, ModelState);
+            }
+
+            if (_clientRepository.ClientExistsPhone(clientCreate.Phone))
+            {
+                ModelState.AddModelError("", "This Phone is already being used");
                 return StatusCode(400, ModelState);
             }
 
